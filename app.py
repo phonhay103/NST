@@ -99,8 +99,9 @@ if content and out_format == 'AUTO':
 if st.sidebar.button("Start Processing"):
     model = load_model()
     stylized_image = model(tf.constant(content_img), tf.constant(style_img))[0][0]
+    stylized_image = tf.image.resize(stylized_image, size[::-1])
     show_img = tf.keras.preprocessing.image.array_to_img(stylized_image)
     st.header("Stylized Image")
     st.image(show_img)
-    stylized_image = tf.image.resize(stylized_image, size[::-1])
-    tf.keras.preprocessing.image.save_img(f'images/stylized/{file_name}.{out_format}', stylized_image)
+#     stylized_image = tf.image.resize(stylized_image, size[::-1])
+#     tf.keras.preprocessing.image.save_img(f'images/stylized/{file_name}.{out_format}', stylized_image)
