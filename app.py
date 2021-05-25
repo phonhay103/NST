@@ -1,4 +1,4 @@
-import streamlit as st 
+import streamlit as st
 import os
 import numpy as np
 import tensorflow as tf
@@ -61,7 +61,6 @@ content = st.file_uploader('IMAGES TO PROCESS', type=['JPG', 'PNG'])
 if content:
     file_name, in_format = content.name.split('.')
     content_img = load_image(content)
-    size = content_img.shape[:2]
     st.image(content_img)
     content_img = load_content_image(content_img)
 
@@ -81,6 +80,7 @@ tab = [(800, 1280), (1024, 1024), (1200, 1920), (1536, 2048), (1600, 2560), (166
 _2in1 = [(1920, 1080), (1920, 1200), (2160, 1440), (2736, 1824), (3200, 1800), (3240, 2160), (3840, 2160)]
 resolution = dict(zip(resolution_type[2:], [hd169, wd1610, std43, std54, dm, ava, cv, mb, tab, _2in1]))
 resolution_type = st.sidebar.selectbox("Resolution Type: ", resolution_type)
+size = None
 if resolution_type != 'Original':
     if resolution_type == 'Custom':
         width = st.sidebar.number_input("Width: ", min_value=0)
@@ -96,12 +96,13 @@ if content and out_format == 'AUTO':
     out_format = in_format
 
 # Button
-if st.sidebar.button("Start Processing"):
+if st.sidebar.button("Start Processing") and content:
     model = load_model()
     stylized_image = model(tf.constant(content_img), tf.constant(style_img))[0][0]
-    stylized_image = tf.image.resize(stylized_image, size[::-1])
+    if size:
+        stylized_image = tf.image.resize(stylized_image, size[::-1])
     show_img = tf.keras.preprocessing.image.array_to_img(stylized_image)
     st.header("Stylized Image")
     st.image(show_img)
-#     stylized_image = tf.image.resize(stylized_image, size[::-1])
-#     tf.keras.preprocessing.image.save_img(f'images/stylized/{file_name}.{out_format}', stylized_image)
+    # stylized_image = tf.image.resize(stylized_image, size[::-1])
+    # tf.keras.preprocessing.image.save_img(f'images/stylized/{file_name}.{out_format}', stylized_image)
