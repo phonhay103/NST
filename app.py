@@ -26,8 +26,7 @@ def load_content_image(img):
 
 @st.cache
 def load_model():
-    # hub_handle = 'https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2'
-    hub_handle = 'https://tfhub.dev/google/lite-model/magenta/arbitrary-image-stylization-v1-256/fp16/prediction/1'
+    hub_handle = 'https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/1'
     hub_module = hub.load(hub_handle)
     return hub_module
 ### Function ###
