@@ -20,13 +20,16 @@ def load_style_image(img, image_size=(256, 256)):
 
 def load_content_image(img):
     img = img / 255.
-    img = tf.convert_to_tensor(img, dtype=tf.float32)
+    if img.shape[0] > 1080:
+        img = tf.image.resize(img, (1080, 1080), preserve_aspect_ratio=True)
+    else:
+        img = tf.convert_to_tensor(img, dtype=tf.float32)
     img = tf.expand_dims(img, axis=0)
     return img
 
 @st.cache
 def load_model():
-    hub_handle = 'https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/1'
+    hub_handle = 'https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2'
     hub_module = hub.load(hub_handle)
     return hub_module
 ### Function ###
