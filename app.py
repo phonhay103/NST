@@ -114,7 +114,7 @@ if st.sidebar.button("Start Processing") and content:
         stylized_image = model(tf.constant(content_img), tf.constant(style_img))[0][0]
         if size:
             stylized_image = tf.image.resize(stylized_image, size[::-1])
-        tf.keras.preprocessing.image.save_img(f'images/stylized/{file_name}.{out_format}', stylized_image)
+#         tf.keras.preprocessing.image.save_img(f'images/stylized/{file_name}.{out_format}', stylized_image)
         show_img = tf.keras.preprocessing.image.array_to_img(stylized_image)
         st.header("Stylized Image")
         st.image(show_img)
@@ -123,7 +123,7 @@ if st.sidebar.button("Start Processing") and content:
             stylized_image = model(tf.constant(content_img), tf.constant(style))[0][0]
             if size:
                 stylized_image = tf.image.resize(stylized_image, size[::-1])
-            tf.keras.preprocessing.image.save_img(f'images/stylized/{file_name} - {style_list[i]}.{out_format.lower()}', stylized_image)
+#             tf.keras.preprocessing.image.save_img(f'images/stylized/{file_name} - {style_list[i]}.{out_format.lower()}', stylized_image)
         show_img = tf.keras.preprocessing.image.array_to_img(stylized_image)
         st.header("Stylized Image")
         st.image(show_img)
